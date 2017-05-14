@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
 import Vacay from './components/Vacay.js';
+import Add from './components/Add.js';
+
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        vacays: [
+        { country: "Bora Bora", year: "2018"},
+        { country: "Greece", year: "2019"},
+        { country: "Belize", year: "2019"}
+      ],
+    };
+  }
+
+  onAddVacay = (vacay) => {
+    this.setState({
+      vacays: this.state.vacays.concat([vacay]),
+    });
+  }
   render() {
     return (
       <div className="App">
@@ -12,19 +31,19 @@ class App extends Component {
             <nav><h1>Vacation Time</h1></nav>
           </div>
           <h2>Your Trips</h2>
+          <Add
+            onAdd={this.onAddVacay}
+           />
           <ul>
-            <Vacay
-            country="Bora Bora"
-            year="2018"
-            />
-            <Vacay
-            country="Greece"
-            year="2019"
-            />
-            <Vacay
-            country="Belize"
-            year="2019"
-            />
+          {
+            this.state.vacays.map(vacay =>
+              <Vacay
+                key={vacay.country}
+                country={vacay.country}
+                year={vacay.year}
+              />
+             )
+            }
           </ul>
         </div>
     );
